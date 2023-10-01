@@ -34,8 +34,6 @@ it("Se receber token sem associação, deve retornar 401 (Unauthorized)", async(
    const retornar = await server.get('/hotels').set('Authorization', `Bearer ${token}`)
    expect(retornar.status).toBe(httpStatus.UNAUTHORIZED);
 
-
-
 })
 it("Se não receber token, deve retornar 401 (Unauthorized)", async()=>{
     const usuarioSemSessao = await createUser();
@@ -79,7 +77,7 @@ it("sucesso status 200", async()=>{
     expect(body).toEqual([{
         id: hotels.id,
         name: hotels.name,
-        Image: hotels.image,
+        image: hotels.image,
         createdAt: hotels.createdAt.toISOString(),
         updatedAt: hotels.updatedAt.toISOString(),
     }])
@@ -91,5 +89,21 @@ it("sucesso status 200", async()=>{
 
 
 describe("GET /hotels/:hotelId", () =>{
+    it("Se receber token inválido, deve retornar 401 (Unauthorized)", async()=>{
+        const retornar = await server.get('/hotels');
+        expect(retornar.status).toBe(httpStatus.UNAUTHORIZED);
     
+    })
+    it("Se receber token sem associação, deve retornar 401 (Unauthorized)", async()=>{
+       const token = faker.lorem.word()
+       const retornar = await server.get('/hotels').set('Authorization', `Bearer ${token}`)
+       expect(retornar.status).toBe(httpStatus.UNAUTHORIZED);
+    
+    })
+    it("Se não receber token, deve retornar 401 (Unauthorized)", async()=>{
+        const usuarioSemSessao = await createUser();
+        const token = jwt.sign({ userId: usuarioSemSessao.id }, process.env.JWT_SECRET);
+        const retornar = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
+        expect(retornar.status).toBe(httpStatus.UNAUTHORIZED);
+    })
 })

@@ -9,7 +9,7 @@ async function getListHotels(userId: number){
     const enrollments = await enrollmentRepository.findWithAddressByUserId(userId)
     if(!enrollments) {throw notFoundError()}
 
-    const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollments.userId)
+    const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollments.id)
     if (ticket.TicketType.isRemote || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel) {
         throw paymentRequired()}
 
@@ -22,9 +22,9 @@ async function getListRooms(userId:number, hotelId: number){
     const enrollments = await enrollmentRepository.findWithAddressByUserId(userId)
     if(!enrollments) {throw notFoundError()}
 
-    const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollments.userId)
+    const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollments.id)
     if (ticket.TicketType.isRemote || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel) {
-        throw PAYMENT_REQUIRED}
+        throw paymentRequired()}
     if(!ticket) {throw notFoundError()}
 
     const roomns = await hotelsRepository.findlistRooms(hotelId) 
