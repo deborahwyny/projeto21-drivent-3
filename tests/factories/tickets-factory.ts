@@ -22,3 +22,6 @@ export async function createTicket(enrollmentId: number, ticketTypeId: number, s
     },
   });
 }
+
+
+
