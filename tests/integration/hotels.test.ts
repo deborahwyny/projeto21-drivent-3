@@ -148,18 +148,18 @@ describe("GET /hotels/:hotelId", () =>{
         expect(status).toBe(httpStatus.OK)
         expect(body).toEqual({
             id: hotel.id,
-            name: hotel.id,
-            image: hotel.name,
+            name: hotel.name,
+            image: hotel.image,
             createdAt: hotel.createdAt.toISOString(),
             updatedAt: hotel.updatedAt.toISOString(),
-        rooms: [{
+        Rooms: [{
 
             id: rooms.id,
             name:rooms.name,
             capacity: rooms.capacity,
             hotelId: hotel.id,
-            createdAt: hotel.createdAt.toISOString(),
-            updatedAt: hotel.updatedAt.toISOString(),
+            createdAt: rooms.createdAt.toISOString(),
+            updatedAt: rooms.updatedAt.toISOString(),
 
 
         }]    
